@@ -39,7 +39,7 @@
             {% else %}
                 <h3>Leave a comment</h3>
                 <form method="post" style="margin-top: 1.3em;">
-                    <p>Username:</p>{{ comment_form.user}}
+                    <p>Username:</p>{{ comment_form.user }}
                     <p>Comment:</p>{{ comment_form.full_description }}
                     {% csrf_token %}
                     <p></p>
@@ -48,4 +48,5 @@
             {% endif %}
         </div>
     </div>
+
 {% endblock content %}

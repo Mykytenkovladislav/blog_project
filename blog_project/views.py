@@ -5,7 +5,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views import generic
 
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import redirect
 
 from blog_project.forms import RegisterForm, CommentForm
 from blog_project.models import Post, Status
@@ -29,7 +29,7 @@ class RegisterFormView(generic.FormView):
         return super(RegisterFormView, self).form_valid(form)
 
 
-class UpdateProfile(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
+class UpdateProfileView(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     model = User
     fields = ['first_name', 'last_name', 'email']
     template_name = 'registration/update_profile.html'
@@ -41,12 +41,13 @@ class UpdateProfile(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView)
         return user
 
 
-class PostList(generic.ListView):
+class PostListView(generic.ListView):
     queryset = Post.objects.filter(published_state=Status.PUBLISHED).order_by('title')
     template_name = 'index.html'
+    paginate_by = 3
 
 
-class PostDetail(SuccessMessageMixin, generic.DetailView):
+class PostDetailView(SuccessMessageMixin, generic.DetailView):
     model = Post
     template_name = 'blog/post_detail.html'
 
@@ -57,7 +58,7 @@ class PostDetail(SuccessMessageMixin, generic.DetailView):
         context.update({'comments': comments, 'comment_form': comment_form})
         return context
 
-    #post comments
+    # post comments
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         comment_form = CommentForm(request.POST)
@@ -72,7 +73,7 @@ class PostDetail(SuccessMessageMixin, generic.DetailView):
         return self.render_to_response(context)
 
 
-class PostCreate(generic.CreateView, SuccessMessageMixin, LoginRequiredMixin):
+class PostCreateView(generic.CreateView, SuccessMessageMixin, LoginRequiredMixin):
     model = Post
     template_name = 'blog/post_create.html'
     fields = ['title', 'short_description', 'image', 'published_state', 'full_description']
@@ -84,4 +85,12 @@ class PostCreate(generic.CreateView, SuccessMessageMixin, LoginRequiredMixin):
         return super().form_valid(form)
 
 
+class UsersListView(generic.ListView):
+    model = User
+    template_name = 'registration/user_list.html'
+    paginate_by = 20
 
+
+class UserDetailView(generic.DetailView):
+    model = User
+    template_name = 'registration/user_details.html'

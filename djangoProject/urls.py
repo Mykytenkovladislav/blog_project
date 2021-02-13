@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
 
-from blog_project.views import RegisterFormView, UpdateProfile
+from blog_project.views import RegisterFormView, UpdateProfileView, UserDetailView, UsersListView
 from djangoProject import settings
 
 urlpatterns = [
@@ -27,7 +27,9 @@ urlpatterns = [
                   path('blog/', include('blog_project.urls')),
                   path('accounts/', include('django.contrib.auth.urls')),
                   path('accounts/register/', RegisterFormView.as_view(), name='register'),
-                  path('accounts/update_profile', UpdateProfile.as_view(), name='update_profile'),
+                  path('accounts/update_profile', UpdateProfileView.as_view(), name='update_profile'),
+                  path('accounts/<int:pk>', UserDetailView.as_view(), name='user_detail'),
+                  path('accounts/', UsersListView.as_view(), name='users_list'),
                   path('admin/', admin.site.urls),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

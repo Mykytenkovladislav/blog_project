@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+{% block content %}
+    <h1>Users</h1>
+    <ul>
+        {% for user in object_list %}
+            <li>{{ user.first_name }} {{ user.last_name }} -
+                <p><a href="{% url 'users_list' %}{{ user.id }}">Go to user profile</a></p>
+            </li>
+        {% empty %}
+            <li>No users yet.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

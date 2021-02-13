@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <p>Username: {{ user.username }}</p>
+    <p>First name: {{ user.first_name }}</p>
+    <p>Last name: {{ user.last_name }}</p>
+    <p>E-mail: {{ user.email }}</p>
+    <p>Staff status: {{ user.is_staff }}</p>
+    <input type=button value="Previous Page" onClick="javascript:history.go(-1);">
+{% endblock %}

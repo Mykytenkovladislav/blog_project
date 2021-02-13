@@ -18,11 +18,13 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+from blog_project.views import RegisterFormView
 from djangoProject import settings
 
 urlpatterns = [
                   path('blog/', include('blog_project.urls')),
                   path('accounts/', include('django.contrib.auth.urls')),
+                  path('accounts/register/', RegisterFormView.as_view(), name='register'),
                   path('admin/', admin.site.urls),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

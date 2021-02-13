@@ -3,8 +3,6 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from djangoProject import settings
-
 
 class Status(models.IntegerChoices):
     PUBLISHED = True, _('Published')

@@ -7,7 +7,7 @@ install:
 before_script:
   - export DJANGO_SECRET_KEY='test_key'
   - python manage.py migrate
-  - python manage.py collectstatic --noinput
+#  - python manage.py collectstatic --noinput
 script:
   - flake8 .
   - python manage.py test  # for running tests from tutorial

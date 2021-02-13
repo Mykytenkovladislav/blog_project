@@ -7,6 +7,7 @@ name = "pypi"
 django = "*"
 whitenoise = "*"
 django-debug-toolbar = "*"
+flake8 = "*"
 
 [dev-packages]
 

@@ -6,6 +6,8 @@
                 <div class="card-body">
                     <h1>{{ object.title }}</h1>
                     <p>{{ object.user.first_name }} {{ object.user.last_name }}</p>
+                    <img src="{{ post.image }}" alt="post image">
+                    <p></p>
                     <p class="card-text ">{{ object.full_description | safe }}</p>
                 </div>
             </div>
@@ -37,8 +39,10 @@
             {% else %}
                 <h3>Leave a comment</h3>
                 <form method="post" style="margin-top: 1.3em;">
-                    {{ comment_form.as_p }}
+                    <p>Username:</p>{{ comment_form.user}}
+                    <p>Comment:</p>{{ comment_form.full_description }}
                     {% csrf_token %}
+                    <p></p>
                     <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
                 </form>
             {% endif %}

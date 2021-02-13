@@ -57,6 +57,7 @@ class PostDetail(SuccessMessageMixin, generic.DetailView):
         context.update({'comments': comments, 'comment_form': comment_form})
         return context
 
+    #post comments
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         comment_form = CommentForm(request.POST)
@@ -71,20 +72,16 @@ class PostDetail(SuccessMessageMixin, generic.DetailView):
         return self.render_to_response(context)
 
 
-def comments_section(request, post_id):
-    template_name = 'post_detail.html'
-    post = get_object_or_404(Post, id=1)
-    comments = post.comments.filter(is_published=True)
-    new_comment = None
-    if request.method == 'POST':
-        comment_form = CommentForm(request.POST)
-        if comment_form.is_valid():
-            new_comment = comment_form.save(commit=False)
-            new_comment.post = post
-            new_comment.save()
-    else:
-        comment_form = CommentForm()
-    return render(request, template_name, {'post': post,
-                                           'comments': comments,
-                                           'new_comment': new_comment,
-                                           'comment_form': comment_form})
+class PostCreate(generic.CreateView, SuccessMessageMixin, LoginRequiredMixin):
+    model = Post
+    template_name = 'blog/post_create.html'
+    fields = ['title', 'short_description', 'image', 'published_state', 'full_description']
+    success_url = reverse_lazy('index')
+    success_message = 'Post created'
+
+    def form_valid(self, form):
+        form.instance.user_id = self.request.user.id
+        return super().form_valid(form)
+
+
+

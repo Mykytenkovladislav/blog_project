@@ -21,7 +21,8 @@ from django.urls import path, include
 from djangoProject import settings
 
 urlpatterns = [
-                  path('polls/', include('blog_project.urls')),
+                  path('blog/', include('blog_project.urls')),
+                  path('accounts/', include('django.contrib.auth.urls')),
                   path('admin/', admin.site.urls),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

@@ -1,7 +1,8 @@
 from django.urls import path
 
-from blog_project.views import Index
+from blog_project import views
 
 urlpatterns = [
-    path('', Index.as_view(), name='index'),
+    path('', views.PostList.as_view(), name='index'),
+    path('<int:pk>', views.PostDetail.as_view(), name='post_detail'),
 ]

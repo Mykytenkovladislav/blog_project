@@ -24,8 +24,14 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.CharField(max_length=30)
     full_description = models.TextField(_("full description"), blank=True)
     is_published = models.BooleanField(choices=Status.choices, default=False)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     created_date = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ['created_date']
+
+    def __str__(self):
+        return 'Comment {} by {}'.format(self.full_description, self.user)

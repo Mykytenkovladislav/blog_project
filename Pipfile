@@ -8,6 +8,7 @@ django = "*"
 whitenoise = "*"
 django-debug-toolbar = "*"
 flake8 = "*"
+ipython = "*"
 
 [dev-packages]
 

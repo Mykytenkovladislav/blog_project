@@ -9,7 +9,7 @@ Function views
 Class-based views
     1. Add an import:  from other_app.views import Home
     2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
+Including another URL conf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
@@ -17,14 +17,17 @@ import debug_toolbar
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import RedirectView
 
-from blog_project.views import RegisterFormView
+from blog_project.views import RegisterFormView, UpdateProfile
 from djangoProject import settings
 
 urlpatterns = [
+                  path('', RedirectView.as_view(url='/blog/', permanent=True)),
                   path('blog/', include('blog_project.urls')),
                   path('accounts/', include('django.contrib.auth.urls')),
                   path('accounts/register/', RegisterFormView.as_view(), name='register'),
+                  path('accounts/update_profile', UpdateProfile.as_view(), name='update_profile'),
                   path('admin/', admin.site.urls),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

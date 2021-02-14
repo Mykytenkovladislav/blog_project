@@ -32,7 +32,7 @@ class RegisterFormView(generic.FormView):
 class UpdateProfileView(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     model = User
     fields = ['first_name', 'last_name', 'email']
-    template_name = 'registration/update_profile.html'
+    template_name = 'users/update_profile.html'
     success_url = reverse_lazy('index')
     success_message = 'Profile updated'
 
@@ -73,7 +73,7 @@ class PostDetailView(SuccessMessageMixin, generic.DetailView):
         return self.render_to_response(context)
 
 
-class PostCreateView(generic.CreateView, SuccessMessageMixin, LoginRequiredMixin):
+class PostCreateView(LoginRequiredMixin, generic.CreateView, SuccessMessageMixin, ):
     model = Post
     template_name = 'blog/post_create.html'
     fields = ['title', 'short_description', 'image', 'published_state', 'full_description']
@@ -87,10 +87,37 @@ class PostCreateView(generic.CreateView, SuccessMessageMixin, LoginRequiredMixin
 
 class UsersListView(generic.ListView):
     model = User
-    template_name = 'registration/user_list.html'
+    template_name = 'users/user_list.html'
     paginate_by = 20
 
 
 class UserDetailView(generic.DetailView):
     model = User
-    template_name = 'registration/user_details.html'
+    template_name = 'users/user_details.html'
+
+
+class UserPostsListView(LoginRequiredMixin, generic.ListView):
+    model = Post
+    template_name = 'users/user_posts.html'
+
+    def get_object(self, queryset=None):
+        user = self.request.user
+        return user
+
+    def get_queryset(self):
+        return Post.objects.filter(user=self.request.user)
+
+
+class UpdatePostView(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
+    model = Post
+    fields = ['title', 'published_state', 'short_description', 'image', 'full_description']
+    template_name = 'blog/update_post.html'
+    success_url = reverse_lazy('user_posts')
+    success_message = 'Post updated'
+
+    # Only author can see his posts
+    def get_queryset(self):
+        queryset = super(UpdatePostView, self).get_queryset()
+        queryset = queryset.filter(user=self.request.user)
+        return queryset
+

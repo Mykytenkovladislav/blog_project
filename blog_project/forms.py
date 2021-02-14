@@ -18,4 +18,4 @@ class RegisterForm(UserCreationForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('user', 'full_description')
+        fields = ['user', 'full_description']

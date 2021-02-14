@@ -33,9 +33,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return 'Comment {} by {}'.format(self.full_description, self.user)
-
-
-
-
-
-

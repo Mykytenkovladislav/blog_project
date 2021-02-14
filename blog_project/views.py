@@ -120,4 +120,3 @@ class UpdatePostView(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView
         queryset = super(UpdatePostView, self).get_queryset()
         queryset = queryset.filter(user=self.request.user)
         return queryset
-
